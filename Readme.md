@@ -113,15 +113,37 @@ OUTPUT_PATH = r"C:\your\path\here"
 
 ## Results Summary
 
-### Model Performance
-- **Best Accuracy**: Logistic Regression (69.97%)
-- **Best F1-Score**: Logistic Regression (70.04%)
-- **Best ROC-AUC**: ANN/Logistic Regression (varies by run)
+### Model Performance Comparison
 
-### Clustering Insights
-- K-Means with k=4 identified distinct borrower groups
-- Cluster-specific models achieved ~71.57% average accuracy
-- Demonstrated improvement over single-model approach
+| Model | Accuracy | Precision | Recall | F1-Score | ROC-AUC | Time(s) |
+|-------|----------|-----------|--------|----------|---------|---------|
+| Logistic Regression | 69.97% | 0.699 | 0.702 | 0.700 | 0.763 | 12.93 |
+| Random Forest | 68.23% | 0.683 | 0.680 | 0.682 | 0.743 | 9.31 |
+| ANN | 69.83% | 0.702 | 0.690 | 0.696 | 0.758 | 34.84 |
+| SVM | 67.18% | 0.673 | 0.669 | 0.671 | 0.737 | 46.75 |
+| KNN | 59.07% | 0.587 | 0.613 | 0.600 | 0.621 | 5.66 |
+| Decision Tree | 59.10% | 0.590 | 0.595 | 0.593 | 0.591 | 14.74 |
+
+**Key Findings:**
+- **Best Overall**: Logistic Regression (69.97% accuracy, 0.763 ROC-AUC)
+- **Second Best**: ANN (69.83% accuracy, 0.758 ROC-AUC)
+- **Third Best**: Random Forest (68.23% accuracy, 0.743 ROC-AUC)
+- **Fastest**: KNN (5.66 seconds)
+
+### K-Means Clustering Analysis
+
+| Cluster | Accuracy | Precision | Recall | F1-Score |
+|---------|----------|-----------|--------|----------|
+| Cluster 1 | 68.19% | 0.69/0.68 | 0.68/0.68 | 0.68/0.68 |
+| Cluster 2 | 70.44% | 0.70/0.70 | 0.70/0.71 | 0.70/0.71 |
+| **Overall** | **69.31%** | **0.69/0.69** | **0.69/0.70** | **0.69/0.70** |
+
+**Clustering Insights:**
+- K-Means identified 2 distinct borrower segments
+- Cluster 2 shows 2.25% improvement over Cluster 1 (70.44% vs 68.19%)
+- Cluster-specific models achieved 69.31% average accuracy
+- Paired metrics (class0/class1) show balanced performance across both classes
+- Heterogeneous borrower populations benefit from segment-specific modeling
 
 ### Key Features
 - **Most Important**: Days Employed (NUM_DAYS_EMPLOYED)
