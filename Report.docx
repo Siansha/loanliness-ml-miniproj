@@ -1,35 +1,88 @@
-# Loan Repayment Prediction: Machine Learning for Alternative Credit Assessment
-
-## Problem Statement
-Traditional lending institutions rely heavily on credit scores to assess loan repayment ability, excluding underbanked populations such as students and unemployed individuals who lack sufficient credit history. This creates a financial inclusion gap where vulnerable populations resort to high-interest lenders. This project addresses this gap by developing a machine learning system to predict loan repayment ability using alternative features (employment, age, income, payment history) rather than credit scores alone.
-
-## Approach
-We implemented a comprehensive ML pipeline using the Home Credit Default Risk dataset (307,511 applications, 122 initial features). Our methodology included: (1) **Data Preprocessing**: Merged 7 data sources using client IDs, handled 30% missing value threshold, label-encoded categorical variables, and normalized 651 engineered features; (2) **Class Imbalance Mitigation**: Down-sampled majority class (91.9% negative) to 1:1 ratio to prevent classifier bias; (3) **Multi-Model Evaluation**: Trained six algorithms—Logistic Regression, Decision Tree, KNN, Random Forest, SVM, and Artificial Neural Network—on down-sampled data (39,720 training samples, 9,930 test samples); (4) **Clustering Analysis**: Applied K-Means (k=4) to identify borrower segments and train cluster-specific models; (5) **Feature Importance**: Extracted top predictive features using Random Forest.
-
-## Implementation Highlights
-**Models Developed**: Logistic Regression achieved 69.97% accuracy with 0.75 ROC-AUC (best baseline), ANN matched 69.15% accuracy with 0.76 ROC-AUC, and Random Forest achieved 68.23%. K-Means clustering improved overall performance to 71.57% by capturing heterogeneous borrower populations—Cluster 3 alone achieved 82.34% accuracy, suggesting distinct characteristics warrant segment-specific lending strategies. **Key Findings**: Employment days (NUM_DAYS_EMPLOYED) emerged as the strongest predictor, followed by age (DAYS_BIRTH), validating domain knowledge that employment stability is critical for repayment ability. Income metrics and external source data also ranked highly. **Optimization**: SVM was trained on 5,000-sample subset for computational efficiency (reducing runtime from 15+ minutes to 2 minutes) while maintaining test-set evaluation on full data. ANN leveraged GPU acceleration via TensorFlow for faster training.
-
-## Technical Implementation
-- **Language**: Python 3.10 with pandas, scikit-learn, TensorFlow
-- **Data Pipeline**: Feature concatenation (7 files) → missing value handling → encoding → normalization
-- **Evaluation Metrics**: Accuracy, precision, recall, F1-score, ROC-AUC with per-class metrics for clustering analysis
-- **Output**: Comprehensive notebook, performance visualizations (ROC curves, feature importance rankings), technical documentation
-
-## Key Conclusions
-1. **Logistic Regression proved optimal** for balancing accuracy (69.97%), interpretability, and computational efficiency
-2. **Cluster-based models improved accuracy by 1.6%**, demonstrating that borrower heterogeneity requires segment-specific approaches
-3. **Employment stability and age are primary repayment predictors**, enabling credit decisions for underbanked populations without traditional credit scores
-4. **Machine learning successfully reduces lending bias** by using multiple dimensions rather than single-score assessment
-
-## Challenges & Limitations
-- **Severe class imbalance** (8.1% positive class) required aggressive down-sampling, risking information loss from 282,686 negative samples
-- **Unexplained features** (EXT_SOURCE_1/2/3) provided predictive signal but lacked documentation, limiting interpretability
-- **Temporal inconsistencies** in aggregated historical data could introduce spurious correlations
-- **High dimensionality** (651 features) created potential multicollinearity and computational burden, partially addressed through SVM sub-sampling
-- **Limited explainability** in ANN predictions—despite strong ROC-AUC, neural networks provide black-box decisions unsuitable for regulated lending
-
-## Future Work
-Recommended improvements include hyperparameter tuning via GridSearchCV, SMOTE for sophisticated up-sampling, ensemble voting (Logistic Regression + ANN), explainable AI integration (SHAP values), and production deployment pipelines with monitoring for model degradation. This foundation enables inclusive lending systems serving populations historically excluded from credit access.
-
----
-**Dataset**: Home Credit Default Risk (Kaggle) | **Models**: 6 algorithms | **Final Accuracy**: 69.97% (single model), 71.57% (clustered) | **Key Feature**: Days Employed
+Loan Repayment Prediction: Machine Learning for Alternative Credit Assessment
+________________________________________
+ Problem Statement
+•	Traditional lenders depend heavily on credit scores to assess repayment ability.
+•	This excludes underbanked groups (students, unemployed, first-time borrowers) lacking credit history.
+•	These groups often resort to high-interest, exploitative lenders.
+•	The project aims to predict loan repayment ability using alternative features like employment, income, and payment history — not just credit scores.
+•	Goal: Promote financial inclusion through data-driven lending.
+________________________________________
+Approach
+•	Dataset Used: Home Credit Default Risk (307,511 applications, 122 raw features).
+•	Steps:
+1.	Data Preprocessing:
+	Merged 7 data sources using client IDs.
+	Dropped columns with >30% missing values.
+	Label-encoded categorical variables.
+	Normalized engineered features (total 651).
+2.	Class Imbalance Mitigation:
+	Target class imbalance: 91.9% negative → 8.1% positive.
+	Used down-sampling to achieve 1:1 ratio for balanced training.
+3.	Multi-Model Evaluation:
+	Trained 6 algorithms:
+	Logistic Regression
+	Decision Tree
+	K-Nearest Neighbors (KNN)
+	Random Forest
+	Support Vector Machine (SVM)
+	Artificial Neural Network (ANN)
+	Dataset split: 39,720 train / 9,930 test samples.
+4.	Clustering Analysis:
+	Applied K-Means (k=4) to segment borrowers.
+	Trained cluster-specific models for tailored predictions.
+5.	Feature Importance:
+	Extracted top predictors using Random Forest feature importance.
+________________________________________
+ Implementation Highlights
+•	Model Results:
+o	Logistic Regression: 69.97% accuracy, 0.75 ROC-AUC (best baseline).
+o	Artificial Neural Network (ANN): 69.15% accuracy, 0.76 ROC-AUC.
+o	Random Forest: 68.23% accuracy.
+•	K-Means Clustering Impact:
+o	Overall accuracy improved to 71.57%.
+o	Cluster 3 achieved 82.34% accuracy, showing strong group-level differences.
+•	Key Predictors:
+o	Employment days (NUM_DAYS_EMPLOYED) – strongest predictor.
+o	Age (DAYS_BIRTH) – second most important.
+o	Income metrics and external source scores also significant.
+•	Optimization:
+o	SVM trained on 5,000-sample subset for faster computation (15+ min → 2 min).
+o	ANN training accelerated using GPU + TensorFlow.
+________________________________________
+ Technical Implementation
+•	Language: Python 3.10
+•	Libraries: pandas, scikit-learn, TensorFlow
+•	Pipeline:
+o	Feature concatenation (7 files)
+o	Missing value handling
+o	Label encoding
+o	Normalization
+•	Evaluation Metrics:
+o	Accuracy, Precision, Recall, F1-Score, ROC-AUC
+o	Cluster-level metrics for detailed analysis
+•	Outputs Generated:
+o	Model notebooks
+o	ROC curves
+o	Feature importance visualizations
+o	Technical documentation
+________________________________________
+ Key Conclusions
+1.	Logistic Regression provided the best tradeoff between accuracy, interpretability, and efficiency (69.97%, ROC-AUC 0.75).
+2.	Cluster-based models improved accuracy by 1.6%, highlighting borrower diversity.
+3.	Employment stability and age are critical predictors for repayment ability.
+4.	Machine learning enables inclusive credit decisions beyond traditional credit scores.
+________________________________________
+Challenges & Limitations
+•	Severe class imbalance: 8.1% positive → required down-sampling (data loss risk).
+•	Unexplained features (EXT_SOURCE_1/2/3): Highly predictive but poorly documented.
+•	Temporal inconsistencies: Aggregated data across inconsistent periods.
+•	High dimensionality (651 features): Risk of multicollinearity and high computation time.
+•	Limited explainability: ANN models lack interpretability for regulated finance contexts.
+________________________________________
+Project Summary
+•	Dataset: Home Credit Default Risk (Kaggle)
+•	Algorithms: 6 models (LogReg, Tree, KNN, RF, SVM, ANN)
+•	Best Accuracy: 69.97% (Logistic Regression)
+•	Clustered Model Accuracy: 71.57%
+•	Top Feature: Days Employed (NUM_DAYS_EMPLOYED)
+________________________________________
