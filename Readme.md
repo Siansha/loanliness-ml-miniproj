@@ -1,192 +1,147 @@
-# Loan Repayment Prediction using Machine Learning
+# 🏦 Home Credit Default Risk - Machine Learning Project
 
-## Project Overview
+## 📘 Overview
+This project predicts the likelihood of a loan applicant defaulting on credit based on their financial history, demographic details, and past repayment patterns.  
+It uses multiple relational datasets provided by Home Credit to build a predictive machine learning pipeline that aids lenders in making data-driven credit decisions.
 
-This project implements a comprehensive machine learning pipeline to predict loan repayment ability using the **Home Credit Default Risk** dataset from Kaggle. The system evaluates borrowers' likelihood to repay loans using alternative features beyond traditional credit scores, helping lenders assess creditworthiness for underbanked populations.
+---
 
-## Dataset
+## 🧠 Problem Statement
+Many loan applicants are denied credit due to insufficient credit history, even when they are capable of repayment.  
+The objective is to build a model that predicts the probability of defaulting on a loan, helping financial institutions provide fairer access to credit.
 
-- **Source**: Kaggle - Home Credit Default Risk
-- **Size**: 307,511 loan applications with 122 initial features
-- **Target**: Binary classification (0: Default, 1: Repayment)
-- **Class Distribution**: 91.9% negative, 8.1% positive (highly imbalanced)
+---
 
-### Data Files
+## ⚙️ Approach
+1. **Data Loading:**  
+   Loaded multiple CSV datasets:  
+   `application_train.csv`, `bureau.csv`, `bureau_balance.csv`, `previous_application.csv`, `POS_CASH_balance.csv`, `installments_payments.csv`, and `credit_card_balance.csv`.
 
-- `application_train.csv` - Loan application information
-- `bureau.csv` - Previous credit bureau data
-- `bureau_balance.csv` - Monthly credit bureau balances
-- `previous_application.csv` - Previous loan applications
-- `POS_CASH_balance.csv` - POS/cash loan balances
-- `installments_payments.csv` - Payment history
-- `credit_card_balance.csv` - Credit card balances
+2. **Feature Engineering:**  
+   - Aggregated numerical data from auxiliary datasets (mean, min, max grouped by `SK_ID_CURR`).  
+   - Merged all aggregated features into the main dataset (`application_train.csv`).
 
-## Methodology
+3. **Data Cleaning:**  
+   - Dropped columns with more than 30% missing data.  
+   - Imputed remaining numeric columns with mean values.
 
-### 1. Data Preprocessing
-- **Feature Concatenation**: Merged 7 datasets using client ID (SK_ID_CURR)
-- **Missing Value Handling**: Removed columns with >30% missing data, imputed rest with mean
-- **Feature Encoding**: Label encoded categorical variables
-- **Normalization**: Applied StandardScaler to all features
-- **Result**: 651 features from 207 columns
+4. **Encoding & Normalization:**  
+   - Applied `LabelEncoder` for categorical columns.  
+   - Standardized numerical features using `StandardScaler`.
 
-### 2. Class Imbalance Handling
-- Applied down-sampling to balance dataset (24,825 positive, 24,825 negative)
-- Used stratified train-test split (80/20)
+5. **Class Balancing:**  
+   - Addressed target imbalance using **down-sampling** to equalize positive (defaults) and negative (non-defaults) samples.
 
-### 3. Machine Learning Models
+6. **Model Training & Evaluation:**  
+   Trained six models and compared performance using accuracy, precision, recall, F1-score, and ROC-AUC:
+   - Logistic Regression  
+   - Decision Tree  
+   - K-Nearest Neighbors (KNN)  
+   - Random Forest  
+   - Support Vector Machine (SVM)  
+   - Multi-Layer Perceptron (MLP Neural Network)
 
-Six classification algorithms were implemented and evaluated:
+---
 
-1. **Logistic Regression** - Baseline linear classifier
-2. **Decision Tree** - Single tree-based classifier
-3. **K-Nearest Neighbors (KNN)** - Distance-based classifier (k=5)
-4. **Random Forest** - Ensemble of 100 decision trees
-5. **Support Vector Machine (SVM)** - RBF kernel (trained on 5K sample for efficiency)
-6. **Artificial Neural Network (ANN)** - Multi-layer perceptron with GPU acceleration
+## 📊 Results Summary
+| Model | Accuracy | F1-Score | ROC-AUC |
+|-------|-----------|----------|----------|
+| **Logistic Regression** | **0.6997** | **0.7004** | **0.7629** |
+| Random Forest | 0.6823 | 0.6817 | 0.7429 |
+| MLP | 0.6930 | 0.6924 | 0.7572 |
+| SVM | 0.6718 | 0.6710 | 0.7371 |
+| Decision Tree | 0.5910 | 0.5926 | 0.5910 |
+| KNN | 0.5907 | 0.5996 | 0.6211 |
 
-### 4. Clustering Analysis
-- Applied K-Means clustering with k=4
-- Trained cluster-specific models
-- Compared single-model vs. cluster-based approach
+**Best Model:** Logistic Regression  
+**Most Important Features:**
+- `EXT_SOURCE_2`, `EXT_SOURCE_3` (external credit scores)  
+- `DAYS_BIRTH` (age)  
+- `DAYS_EMPLOYED`  
+- `DAYS_CREDIT`
 
-### 5. Evaluation Metrics
-- Accuracy, Precision, Recall, F1-Score
-- ROC-AUC (Area Under Curve)
-- Confusion Matrix
-- Per-class metrics for clustering analysis
+---
 
-### 6. Feature Importance Analysis
-- Extracted feature importance from Random Forest
-- Identified top predictive features
+## 📈 Visualizations
+Generated a comparative visualization showing:
+- Model accuracy comparison  
+- Top 15 most important features (from Random Forest)
 
-## File Structure
+---
 
-```
-loan-repayment-ml/
-├── loanliness.ipynb                    # Main Jupyter notebook
-├── model_performance_analysis.png      # Performance visualizations
-├── README.md                           # This file
-└── REPORT.md                           # Detailed technical report
-```
+## 🚀 Setup Instructions
 
-## Installation & Setup
-
-### Requirements
-```
-pandas
-numpy
-scikit-learn
-matplotlib
-seaborn
-tensorflow (GPU support optional)
-```
-
-### Installation
+### 1️⃣ Clone or Download the Repository
 ```bash
-pip install pandas numpy scikit-learn matplotlib seaborn tensorflow
+git clone https://github.com/<your-username>/HomeCredit-ML.git
+cd HomeCredit-ML
+````
+
+### 2️⃣ Install Dependencies
+
+Make sure you have Python 3.8+ installed, then install the required libraries:
+
+```bash
+pip install pandas numpy matplotlib seaborn scikit-learn
 ```
 
-### Configuration
-Edit the `OUTPUT_PATH` variable in the notebook to set your desired output directory:
-```python
-OUTPUT_PATH = r"C:\your\path\here"
+### 3️⃣ Prepare the Dataset
+
+Download the Home Credit Default Risk dataset from Kaggle and place the CSV files inside:
+by modify the `base_path` in the script accordingly.
+
+### 4️⃣ Run the Script
+
+Run the main Python file:
+
+```bash
+python main_script.py
 ```
 
-## Usage
+### 5️⃣ View Outputs
 
-1. **Prepare Dataset**
-   - Download all 7 CSV files from Kaggle Home Credit Default Risk competition
-   - Place them in a single folder
+* Console will display model metrics and summaries.
+* Plots will be saved to `base_path\model_performance_analysis.png`.
 
-2. **Run Notebook**
-   ```bash
-   jupyter notebook loanliness.ipynb
-   ```
+---
 
-3. **Expected Output**
-   - Model performance comparison table
-   - Cluster-specific performance metrics
-   - ROC curves visualization
-   - Feature importance rankings
-   - Performance analysis PNG file
+## 🧩 Challenges Faced
 
-## Results Summary
+* Handling extremely large datasets (`bureau_balance` has ~27M rows).
+* Managing memory and optimizing joins.
+* Addressing missing values and class imbalance.
+* Long training times for SVM and MLP models.
 
-### Model Performance Comparison
+---
 
-| Model | Accuracy | Precision | Recall | F1-Score | ROC-AUC | Time(s) |
-|-------|----------|-----------|--------|----------|---------|---------|
-| Logistic Regression | 69.97% | 0.699 | 0.702 | 0.700 | 0.763 | 12.93 |
-| Random Forest | 68.23% | 0.683 | 0.680 | 0.682 | 0.743 | 9.31 |
-| ANN | 69.83% | 0.702 | 0.690 | 0.696 | 0.758 | 34.84 |
-| SVM | 67.18% | 0.673 | 0.669 | 0.671 | 0.737 | 46.75 |
-| KNN | 59.07% | 0.587 | 0.613 | 0.600 | 0.621 | 5.66 |
-| Decision Tree | 59.10% | 0.590 | 0.595 | 0.593 | 0.591 | 14.74 |
+## 🧾 Conclusions
 
-**Key Findings:**
-- **Best Overall**: Logistic Regression (69.97% accuracy, 0.763 ROC-AUC)
-- **Second Best**: ANN (69.83% accuracy, 0.758 ROC-AUC)
-- **Third Best**: Random Forest (68.23% accuracy, 0.743 ROC-AUC)
-- **Fastest**: KNN (5.66 seconds)
+* Logistic Regression achieved the best trade-off between performance and interpretability.
+* External credit scores (`EXT_SOURCE_*`) and demographic features were strong predictors.
+* The pipeline demonstrates real-world data integration, preprocessing, and model comparison in a financial domain.
 
-### K-Means Clustering Analysis
+---
 
-| Cluster | Accuracy | Precision | Recall | F1-Score |
-|---------|----------|-----------|--------|----------|
-| Cluster 1 | 68.19% | 0.69/0.68 | 0.68/0.68 | 0.68/0.68 |
-| Cluster 2 | 70.44% | 0.70/0.70 | 0.70/0.71 | 0.70/0.71 |
-| **Overall** | **69.31%** | **0.69/0.69** | **0.69/0.70** | **0.69/0.70** |
+## 📂 Project Structure
 
-**Clustering Insights:**
-- K-Means identified 2 distinct borrower segments
-- Cluster 2 shows 2.25% improvement over Cluster 1 (70.44% vs 68.19%)
-- Cluster-specific models achieved 69.31% average accuracy
-- Paired metrics (class0/class1) show balanced performance across both classes
-- Heterogeneous borrower populations benefit from segment-specific modeling
+```
+ML/
+├── application_train.csv
+├── bureau.csv
+├── bureau_balance.csv
+├── previous_application.csv
+├── POS_CASH_balance.csv
+├── installments_payments.csv
+├── credit_card_balance.csv
+├── main_script.py
+├── model_performance_analysis.png
+└── README.md
+```
 
-### Key Features
-- **Most Important**: Days Employed (NUM_DAYS_EMPLOYED)
-- **Second Most Important**: Age (DAYS_BIRTH)
-- Employment stability and age are primary repayment predictors
+---
 
-## Key Findings
+## 👨‍💻 Author
 
-1. **Employment Status** is the strongest predictor of repayment ability
-2. **Age** correlates with stable repayment patterns
-3. **Down-sampling** was more effective than up-sampling for handling class imbalance
-4. **Logistic Regression** provided best balance of accuracy and interpretability
-5. **Cluster-based approach** showed marginal improvement over single models
-
-## Advantages
-
-- Helps underbanked populations access credit by using alternative features
-- Reduces reliance on traditional credit scores
-- Identifies key factors affecting repayment ability
-- Provides multiple model options for different use cases
-
-## Limitations
-
-- Dataset has significant class imbalance (8% positive class)
-- Features from different time periods may have temporal issues
-- Some external source features (EXT_SOURCE_1/2/3) remain unexplained
-- GPU training requires TensorFlow/CUDA setup
-
-## References
-
-- Home Credit Default Risk Dataset: https://www.kaggle.com/c/home-credit-default-risk
-- Dodd-Frank Wall Street Reform and Consumer Protection Act (2010)
-
-## Author
-
-Yiyun Liang, Xiaomeng Jin, Zihan Wang (Stanford University)
-
-Implementation: Enhanced ML Pipeline with GPU Acceleration
-
-## License
-
-MIT License - Feel free to use and modify for educational purposes.
-
-## Contact & Support
-
-For questions or issues, please refer to the technical report (REPORT.md) or the commented code in the Jupyter notebook.
+**Shreyas R. Bhat**
+Machine Learning Project | October 2025
+Department of Computer Science
