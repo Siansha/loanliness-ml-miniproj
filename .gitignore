@@ -1,0 +1,12 @@
+# Ignore virtual environments
+venv/
+
+# Ignore Jupyter runtime files
+.ipynb_checkpoints/
+
+# Ignore generated numpy arrays and model outputs
+*.npy
+*.csv
+*.png
+*.json
+outputs/
