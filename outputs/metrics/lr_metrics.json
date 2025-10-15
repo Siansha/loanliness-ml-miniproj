@@ -1,0 +1,8 @@
+{
+    "model": "Logistic Regression",
+    "accuracy": 0.7034291010194624,
+    "precision": 0.1689361065389795,
+    "recall": 0.6821752265861027,
+    "f1_score": 0.27080834732549774,
+    "roc_auc": 0.7591172093365577,
+    "y_pred": 
