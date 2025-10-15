@@ -107,7 +107,7 @@ All metrics were logged and visualized using custom plotting utilities.
 | **Random Forest**       |   0.68   |    0.67   |  0.68  |   0.67   |   0.74   |
 | **Naive Bayes**         |   0.64   |    0.63   |  0.65  |   0.64   |   0.70   |
 | **LightGBM**            |   0.71   |    0.70   |  0.71  |   0.70   | **0.78** |
-| **MLP Neural Net**      |   0.70   |    0.69   |  0.69  |   0.69   |   0.77   |
+
 
 ### 🏆 Best Model:
 
@@ -229,3 +229,4 @@ pip install pandas numpy scikit-learn imbalanced-learn lightgbm matplotlib seabo
 ---
 
 Would you like me to **export this as a polished `README.md` file** (with markdown formatting and your screenshot embedded near the results section)? I can generate it instantly so you can directly upload it to GitHub.
+
